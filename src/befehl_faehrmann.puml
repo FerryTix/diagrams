@@ -1,0 +1,12 @@
+@startuml
+scale 2
+participant Fährmann
+participant Server
+
+Ticketautomat -> Server: Fragt Befehle an
+... ...
+Fährmann -> Server: Befehl für Ticketautomat
+Server ---> Ticketautomat: Gibt Befehl weiter
+
+@enduml
+
