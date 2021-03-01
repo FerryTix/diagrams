@@ -7,7 +7,7 @@
 !$THEME = "bluegray"
 
 !if %not(%variable_exists("$BGCOLOR"))
-!$BGCOLOR = "transparent"
+!$BGCOLOR = $WHITE
 !endif
 
 skinparam backgroundColor $BGCOLOR
@@ -332,11 +332,13 @@ skinparam database {
 
 skinparam class {
 	$primary_scheme()
-	HeaderBackgroundColor $PRIMARY_LIGHT-$PRIMARY
+	HeaderBackgroundColor $PRIMARY
+	' $PRIMARY_LIGHT-$PRIMARY
 	StereotypeFontColor $DARK
 	BorderThickness 1
-	AttributeFontColor $LIGHT
-	AttributeFontSize 11
+	AttributeFontColor $WHITE
+	' $LIGHT
+	AttributeFontSize 14
 }
 !endsub
 

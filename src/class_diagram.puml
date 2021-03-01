@@ -1,0 +1,164 @@
+@startuml
+skinparam linetype ortho
+title: FerryTix Class Diagram
+abstract class PaymentDetails
+
+class FaehrCardPayment {
+    + uuid: UUID
+}
+FaehrCardPayment <|-up- PaymentDetails
+
+class CashPayment {
+    + denominations: array<integer>
+    + change: array<integer>
+}
+
+CashPayment <|-up- PaymentDetails
+
+class ECCardPayment {
+
+}
+
+ECCardPayment <|-- PaymentDetails
+
+class WirePayment {
+
+}
+
+WirePayment <|-- PaymentDetails
+
+class PayPalPayment {
+
+}
+
+PayPalPayment <|-- PaymentDetails
+
+class Payment {
+    + uuid: UUID
+    + amount: integer
+    + method: PaymentMethod
+    + details: PaymentDetails
+}
+
+Payment <-- PaymentMethod
+Payment <- PaymentDetails
+
+class TicketSale {
+    + uuid: UUID
+    + issuedBy: UUID
+    + issuedAt: DateTime
+    + returnValid: boolean
+    + from: MachineLocation
+    + payment: Payment
+    + positions: array<<Fare, integer>>
+}
+
+TicketSale--> VendingMachine
+TicketSale--> MachineLocation
+TicketSale --> Fare
+
+class TicketClass {
+    + bicycle: boolean
+    + return: boolean
+    + reduced: boolean
+    + staff: boolean
+}
+
+class TopUp {
+    + uuid: UUID
+    + for: UUID
+    + issuedAt: DateTime
+    + issuedBy: UUID
+    + amount: integer
+    + paid: integer
+    + payment: Payment
+    + initial: boolean
+}
+
+TopUp--> FaehrCard
+TopUp--> VendingMachine
+TopUp--> Payment
+
+class StaffMember {
+    + uuid: UUID
+    + firstName: string
+    + lastName: string
+    + role: StaffRole
+}
+
+StaffMember--> StaffRole
+
+enum StaffRole {
+    Admin
+    Captain
+    Cashier
+    other
+}
+
+class FaehrCard {
+    + uuid: UUID
+    + ownedBy: Union<null, UUID>
+    + balance: integer
+    + issuedAt: DateTime
+    + issuedBy: Union<null, UUID>
+    + topUps: array<TopUp>
+    + charges: array<TicketSale>
+}
+
+FaehrCard--> StaffMember
+FaehrCard--> VendingMachine
+FaehrCard--> TopUp
+FaehrCard-> TicketSale
+
+class MachineConfiguration {
+    + forMachine: UUID
+    + maxBicycles: integer
+    + maxBicyclesTolerance: integer
+    + maxPassengers: integer
+    + maxPassengersTolerance: integer
+    + fares: array<Fare>
+}
+
+MachineConfiguration--> Fare
+
+class Fare {
+    + ticketClass: TicketClass
+    + fare: integer
+}
+
+Fare--> TicketClass
+
+' enum MachineCommand {
+'     setSignalRed
+'     setSignalGreen
+'     stopVending
+'     startVending
+' }
+
+enum MachineLocation {
+    Bislich
+    Xanten
+}
+
+class VendingMachine {
+    uuid: UUID
+    location: MachineLocation
+}
+
+VendingMachine--> MachineLocation
+
+class MachineStatus {
+    vending: boolean
+    waiting: array<WaitingPassenger>
+}
+
+MachineStatus--> WaitingPassenger
+
+class WaitingPassenger {
+    ticketClass: TicketClass
+    waitingSince: DateTime
+}
+
+WaitingPassenger--> TicketClass
+
+@enduml
