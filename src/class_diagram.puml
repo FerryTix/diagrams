@@ -1,5 +1,6 @@
 @startuml
 skinparam linetype ortho
+left to right direction
 title: FerryTix Class Diagram
 abstract class PaymentDetails
 
@@ -19,13 +20,13 @@ class ECCardPayment {
 
 }
 
-ECCardPayment <|-- PaymentDetails
+ECCardPayment <|-left PaymentDetails
 
-class WirePayment {
+class BankTransferPayment {
 
 }
 
-WirePayment <|-- PaymentDetails
+BankTransferPayment <|-- PaymentDetails
 
 class PayPalPayment {
 
@@ -41,7 +42,15 @@ class Payment {
 }
 
 Payment <-- PaymentMethod
-Payment <- PaymentDetails
+Payment <-- PaymentDetails
+
+enum PaymentMethod {
+    FaehrCard
+    Cash
+    ECCard
+    BankTransfer
+    PayPal
+}
 
 class TicketSale {
     + uuid: UUID
@@ -159,6 +168,6 @@ class WaitingPassenger {
     waitingSince: DateTime
 }
 
-WaitingPassenger--> TicketClass
+WaitingPassenger-> TicketClass
 
 @enduml
