@@ -1,56 +1,48 @@
 @startuml
 skinparam linetype ortho
 left to right direction
+skinparam nodesep 30
 title: FerryTix Class Diagram
-abstract class PaymentDetails
+abstract class PaymentMethod
 
 class FaehrCardPayment {
     + uuid: UUID
 }
-FaehrCardPayment <|-up- PaymentDetails
+FaehrCardPayment .|> PaymentMethod
+FaehrCardPayment -left-> FaehrCard
 
 class CashPayment {
     + denominations: array<integer>
     + change: array<integer>
 }
 
-CashPayment <|-up- PaymentDetails
+CashPayment .|> PaymentMethod
 
 class ECCardPayment {
 
 }
 
-ECCardPayment <|-left PaymentDetails
+ECCardPayment .|> PaymentMethod
 
 class BankTransferPayment {
 
 }
 
-BankTransferPayment <|-- PaymentDetails
+BankTransferPayment .up|> PaymentMethod
 
 class PayPalPayment {
 
 }
 
-PayPalPayment <|-- PaymentDetails
+PayPalPayment ..|> PaymentMethod
 
 class Payment {
     + uuid: UUID
     + amount: integer
     + method: PaymentMethod
-    + details: PaymentDetails
 }
 
-Payment <-- PaymentMethod
-Payment <-- PaymentDetails
-
-enum PaymentMethod {
-    FaehrCard
-    Cash
-    ECCard
-    BankTransfer
-    PayPal
-}
+Payment --> PaymentMethod
 
 class TicketSale {
     + uuid: UUID
@@ -62,9 +54,11 @@ class TicketSale {
     + positions: array<<Fare, integer>>
 }
 
-TicketSale--> VendingMachine
-TicketSale--> MachineLocation
-TicketSale --> Fare
+TicketSale-up-> VendingMachine
+TicketSale-> MachineLocation
+TicketSale -up> Fare
+TicketSale -left-> Payment
+
 
 class TicketClass {
     + bicycle: boolean
@@ -84,8 +78,8 @@ class TopUp {
     + initial: boolean
 }
 
-TopUp--> FaehrCard
-TopUp--> VendingMachine
+TopUp-> FaehrCard
+TopUp-> VendingMachine
 TopUp--> Payment
 
 class StaffMember {
@@ -111,13 +105,10 @@ class FaehrCard {
     + issuedAt: DateTime
     + issuedBy: Union<null, UUID>
     + topUps: array<TopUp>
-    + charges: array<TicketSale>
 }
 
-FaehrCard--> StaffMember
+FaehrCard-> StaffMember
 FaehrCard--> VendingMachine
-FaehrCard--> TopUp
-FaehrCard-> TicketSale
 
 class MachineConfiguration {
     + forMachine: UUID
@@ -135,7 +126,7 @@ class Fare {
     + fare: integer
 }
 
-Fare--> TicketClass
+Fare-up> TicketClass
 
 ' enum MachineCommand {
 '     setSignalRed
@@ -154,7 +145,7 @@ class VendingMachine {
     location: MachineLocation
 }
 
-VendingMachine--> MachineLocation
+VendingMachine-> MachineLocation
 
 class MachineStatus {
     vending: boolean
@@ -168,6 +159,6 @@ class WaitingPassenger {
     waitingSince: DateTime
 }
 
-WaitingPassenger-> TicketClass
+WaitingPassenger--> TicketClass
 
 @enduml
