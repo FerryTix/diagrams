@@ -1,4 +1,4 @@
-# plantuml_files
+# diagrams
 Sammlung von PlantUML-Code für die Studienarbeit
 
 ## Download PlantUML
