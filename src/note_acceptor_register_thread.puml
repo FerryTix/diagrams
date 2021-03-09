@@ -2,11 +2,11 @@
 skinparam linetype ortho
 title: Note Acceptor Register Thread
 start
-repeat :Release **Command Lock**;
-:Wait for Edge;
+repeat :Wait for Edge;
 :Acquire **Command Lock**;
-backward :End of Bill;
-    repeat :Sleep 125 ms;
+    repeat :Sleep 110 ms;
     ':Release **Command Lock**;
-    repeat while (Wait for Edge) is (    Edge\n    detected) not (\nTimed out)
+    repeat while (Wait for Edge) is (    Edge\n    detected) not (Timed out after 100 ms\n)
+     :Write Bill to Message Queue;
+    backward :Release **Command Lock**;
 @enduml
