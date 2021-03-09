@@ -134,15 +134,16 @@ skinparam swimlane {
 
 skinparam activity {
 	FontColor $PRIMARY_TEXT
-	BorderColor $PRIMARY
+	BorderColor $PRIMARY_LIGHT
 	BackgroundColor $PRIMARY_LIGHT-$PRIMARY
 	BarColor $SUCCESS
-	StartColor $INFO
-	EndColor $INFO
+	' StartColor $PRIMARY_LIGHT
+	StartColor #444
+	EndColor $PRIMARY_LIGHT
 	''
-	DiamondBackgroundColor $SECONDARY_LIGHT-$SECONDARY_DARK
-  	DiamondBorderColor $SECONDARY_DARK
-	DiamondFontColor $SECONDARY_TEXT
+	DiamondBackgroundColor $SECONDARY-$PRIMARY
+  	DiamondBorderColor $PRIMARY_LIGHT
+	DiamondFontColor $WHITE
 }
 !endsub
 
@@ -335,6 +336,7 @@ skinparam database {
 
 skinparam class {
 	$primary_scheme()
+	Public #000
 	HeaderBackgroundColor $PRIMARY
 	' $PRIMARY_LIGHT-$PRIMARY
 	StereotypeFontColor $DARK
