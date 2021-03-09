@@ -3,20 +3,21 @@ skinparam linetype ortho
 left to right direction
 skinparam nodesep 30
 title: FerryTix Class Diagram
+
 abstract class PaymentMethod
 
 class FaehrCardPayment {
-    + uuid: UUID
+    uuid: UUID
 }
 FaehrCardPayment .|> PaymentMethod
 FaehrCardPayment -left-> FaehrCard
 
 class CashPayment {
-    + denominations: array<integer>
-    + change: array<integer>
+    denominations: [Integer]
+    change: [Integer]
 }
 
-CashPayment .|> PaymentMethod
+CashPayment ..|> PaymentMethod
 
 class ECCardPayment {
 
@@ -37,59 +38,70 @@ class PayPalPayment {
 PayPalPayment ..|> PaymentMethod
 
 class Payment {
-    + uuid: UUID
-    + amount: integer
-    + method: PaymentMethod
+    issuedBy: Union<null, VendingMachine>
+    issuedAt: DateTime
+    paymentNumber: Integer
+    amount: Integer
+    method: PaymentMethod
 }
 
-Payment --> PaymentMethod
+Payment -> PaymentMethod
+Payment -> VendingMachine
 
 class TicketSale {
-    + uuid: UUID
-    + issuedBy: UUID
-    + issuedAt: DateTime
-    + returnValid: boolean
-    + from: MachineLocation
-    + payment: Payment
-    + positions: array<<Fare, integer>>
+    returnValid: Boolean
+    from: MachineLocation
+    positions: [Position]
 }
 
-TicketSale-up-> VendingMachine
-TicketSale-> MachineLocation
-TicketSale -up> Fare
+class Position {
+    fare: Fare
+    count: Integer
+}
+
+Position -> Fare
+Position <-TicketSale
+
 TicketSale -left-> Payment
 
 
 class TicketClass {
-    + bicycle: boolean
-    + return: boolean
-    + reduced: boolean
-    + staff: boolean
+    bicycle: Boolean
+    return: Boolean
+    reduced: Boolean
+    staff: Boolean
 }
+
+abstract class Sale {
+    saleID: String
+    signedBy: VendingMachine
+    signature: String
+    payment: Payment
+
+}
+
+TicketSale .left.|> Sale
+TopUp .up|> Sale
+Sale -> Payment
+Sale -> VendingMachine
 
 class TopUp {
-    + uuid: UUID
-    + for: UUID
-    + issuedAt: DateTime
-    + issuedBy: UUID
-    + amount: integer
-    + paid: integer
-    + payment: Payment
-    + initial: boolean
+    for: FaehrCard
+    amount: Integer
+    initial: Boolean
 }
 
-TopUp-> FaehrCard
-TopUp-> VendingMachine
 TopUp--> Payment
+FaehrCard <-- TopUp
 
 class StaffMember {
-    + uuid: UUID
-    + firstName: string
-    + lastName: string
-    + role: StaffRole
+    uuid: UUID
+    firstName: String
+    lastName: String
+    role: StaffRole
 }
 
-StaffMember--> StaffRole
+StaffMember -up> StaffRole
 
 enum StaffRole {
     Admin
@@ -99,34 +111,34 @@ enum StaffRole {
 }
 
 class FaehrCard {
-    + uuid: UUID
-    + ownedBy: Union<null, UUID>
-    + balance: integer
-    + issuedAt: DateTime
-    + issuedBy: Union<null, UUID>
-    + topUps: array<TopUp>
+    uuid: UUID
+    ownedBy: Union<null, StaffMember>
+    balance: Integer
+    issuedAt: DateTime
+    issuedBy: Union<null, VendingMachine>
 }
 
-FaehrCard-> StaffMember
+FaehrCard -up> StaffMember
 FaehrCard--> VendingMachine
 
 class MachineConfiguration {
-    + forMachine: UUID
-    + maxBicycles: integer
-    + maxBicyclesTolerance: integer
-    + maxPassengers: integer
-    + maxPassengersTolerance: integer
-    + fares: array<Fare>
+    forMachine: VendingMachine
+    maxBicycles: Integer
+    maxBicyclesTolerance: Integer
+    maxPassengers: Integer
+    maxPassengersTolerance: Integer
+    fares: [Fare]
 }
 
-MachineConfiguration--> Fare
+MachineConfiguration -> VendingMachine
+MachineConfiguration -up> Fare
 
 class Fare {
-    + ticketClass: TicketClass
-    + fare: integer
+    ticketClass: TicketClass
+    fare: Integer
 }
 
-Fare-up> TicketClass
+TicketClass <-- Fare
 
 ' enum MachineCommand {
 '     setSignalRed
@@ -141,24 +153,25 @@ enum MachineLocation {
 }
 
 class VendingMachine {
-    uuid: UUID
+    machineNumber: Integer
+    publicKey: PublicKey
     location: MachineLocation
 }
 
-VendingMachine-> MachineLocation
+MachineLocation --> VendingMachine
 
 class MachineStatus {
-    vending: boolean
-    waiting: array<WaitingPassenger>
+    vending: Boolean
+    waiting: [WaitingPassenger]
 }
 
-MachineStatus--> WaitingPassenger
+WaitingPassenger <- MachineStatus
 
 class WaitingPassenger {
     ticketClass: TicketClass
     waitingSince: DateTime
 }
 
-WaitingPassenger--> TicketClass
+WaitingPassenger --> TicketClass
 
 @enduml
