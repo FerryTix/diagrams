@@ -1,0 +1,13 @@
+@startuml
+skinparam linetype ortho
+title: Cash Register Controller Thread
+start
+:Acquire **Command Lock**;
+repeat :Deny Cash;
+repeat :Release **Command Lock**;
+:Await Command;
+:Acquire **Command Lock**;
+    backward :Accept Cash;
+    repeat while (Process Command) is (Accept Cash) not (Deny Cash)
+
+@enduml
