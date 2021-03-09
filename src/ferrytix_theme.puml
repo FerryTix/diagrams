@@ -29,8 +29,8 @@ skinparam backgroundColor $BGCOLOR
 
 !$FGCOLOR = $DARK
 !$PRIMARY_DARK = "#007633"
+' !$PRIMARY_LIGHT = "#555"
 !$PRIMARY_LIGHT = "#37DA7E"
-' !$PRIMARY_LIGHT = "#33b2e2"
 ' !$PRIMARY_DARK = "#007faf"
 !$PRIMARY_TEXT = $WHITE
 !$SECONDARY_LIGHT = "#f5f5f5"
@@ -64,7 +64,7 @@ skinparam backgroundColor $BGCOLOR
 !procedure $primary_scheme()
 
 	FontColor $PRIMARY_TEXT
-	BorderColor $PRIMARY_LIGHT
+	BorderColor #060
 	BackgroundColor $PRIMARY_LIGHT-$PRIMARY
 
 !endprocedure
@@ -177,10 +177,11 @@ skinparam arrow {
 skinparam sequence {
 	BorderColor $PRIMARY
 	' For some reason sequence title font color does not pick up from global
-	TitleFontColor $PRIMARY
-	BackgroundColor $BGCOLOR
+	' $PRIMARY
+	' BackgroundColor $BGCOLOR
 	StartColor $PRIMARY
-	EndColor $PRIMARY
+	EndColor #000
+	' $PRIMARY
 	''
 	BoxBackgroundColor $LIGHT
 	BoxBorderColor $GRAY
@@ -189,11 +190,12 @@ skinparam sequence {
 	LifeLineBorderColor #111
 	'' $PRIMARY_DARK
 	LifeLineBorderThickness 2
-	LifeLineBackgroundColor $SECONDARY_LIGHT
+	' $SECONDARY_LIGHT
 	''
 	GroupBorderColor $GRAY
 	GroupFontColor $DARK
 	GroupHeaderFontColor $INFO
+    ' GroupBackgroundColor #000-$PRIMARY
 	''
 	DividerBackgroundColor $WHITE-$LIGHT
     DividerBorderColor $GRAY
@@ -204,6 +206,7 @@ skinparam sequence {
 	ReferenceBorderColor $GRAY
 	ReferenceFontColor $DARK
 	ReferenceHeaderFontColor $INFO
+
 }
 !endsub
 
