@@ -1,0 +1,38 @@
+@startuml
+
+skinparam linetype ortho
+left to right direction
+cloud {
+    package "Backend" {
+        [API Server] as server
+        () "REST API" as api
+          database "NoSQL Database" as db {
+                [TicketSale]
+                [MachineConfiguration]
+                [Payment]
+                [TopUp]
+                [FaehrCard]
+                [StaffMember]
+                [VendingMachine]
+          }
+
+
+    }
+}
+
+server <-> api
+server --> db
+
+node "VendingMachine" {
+    [Frontend] as v_fr
+}
+
+v_fr ---> api
+
+node "ManagementCenter" {
+    [Mobile App] as m_app
+}
+
+m_app -> api
+@enduml
+
