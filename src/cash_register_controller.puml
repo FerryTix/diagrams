@@ -1,0 +1,42 @@
+@startuml
+skinparam linetype ortho
+title: Cash Register Controller Thread
+start
+repeat
+if (Wait for Command) then (Command)
+:Process Command;
+else (Timeout after 100 ms)
+:;
+endif
+if (Last Command) then (ACCEPT_CASH)
+    if (Balance\n>= Required Amount) then (yes)
+    :Deny Cash;
+    if (Cash Input Semaphore) then (4)
+        :Set Controller Status\nPAYMENT_READY;
+    else (< 4)
+    endif
+    else (no)
+        :Set Controller Status\nACCEPTING_CASH {Balance};
+    endif
+elseif () then (DENY_CASH)
+    :Deny Cash;
+    if (Cash Input Semaphore) then (4)
+        if (Balance > 0) then (yes)
+        :Drop Money;
+        else (no)
+        endif
+    else (< 4)
+    endif
+    :Set Controller Status\nDENYING_CASH;
+else (TAKE_MONEY)
+:Take Money;
+:Issue Change;
+endif
+
+
+
+
+
+
+
+@enduml
