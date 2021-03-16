@@ -1,0 +1,17 @@
+@startuml
+title Cash Controller States
+' skinparam linetype ortho
+
+hide empty description
+
+[*] -> DENYING_CASH
+
+DENYING_CASH -> ACCEPTING_CASH: ACCEPT_CASH
+
+ACCEPTING_CASH --> PAYMENT_READY: balance sufficient
+ACCEPTING_CASH -left-> DENYING_CASH: DENY_CASH
+ACCEPTING_CASH -> ACCEPTING_CASH: balance\ninsufficient
+
+PAYMENT_READY -> DENYING_CASH: TAKE_MONEY\nor\nDENY_CASH
+
+@enduml
