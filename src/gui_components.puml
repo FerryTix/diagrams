@@ -22,7 +22,7 @@ abstract class Menu {
 }
 
 note top of FrontendController: handler thread calls\ncurrent menu's tick\nmethod periodically
-note left of Menu: menu can be\nentered and\nexited and\nhas a state
+note top of Menu: menu can be\nentered and\nexited and\nhas a state
 note bottom of Screen: screen is created\nby a menu and has\noverlays as children
 note right of Overlay: overlays are\ncreated and drawn\nby a screen
 note right of Drawable: drawable is the\nbase class of\nall frontend components
