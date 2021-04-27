@@ -1,0 +1,83 @@
+@startuml
+skinparam linetype ortho
+skinparam monochrome true
+
+abstract class Screen {
+    --
+    + draw()
+    + draw_overlays()
+    + process_events()
+    + process_overlay_events()
+}
+
+abstract class Menu {
+    --
+    + draw()
+    + process_events()
+    + process_screen_events()
+    + tick()
+    + enter()
+    + exit()
+}
+
+note left of FrontendController: handler thread calls\ncurrent menu's tick\nmethod periodically
+note left of Menu: menu can be\nentered and\nexited and\nhas a state
+note left of Screen: screen is created\nby a menu and has\noverlays as children
+note right of Overlay: overlays are\ncreated and drawn\nby a screen
+note top of Drawable: drawable is the\nbase class of\nall frontend components
+
+abstract class Overlay {
+    --
+    + draw()
+    + process_events()
+}
+
+'abstract class Event
+
+'class NavigationEvent {
+
+'}
+'NavigationEvent -|> Event
+
+
+
+abstract class Drawable {
+    --
+    + draw()
+    + process_events()
+}
+
+Screen -up-|> Drawable
+Menu -|> Drawable
+Overlay -down-|> Drawable
+
+Menu *- Screen
+
+'class MainMenu {
+
+'}
+
+'class WelcomeScreen {
+
+'}
+
+'MainMenu -up-|> Menu
+'WelcomeScreen -up-|> Screen
+
+'MainMenu - WelcomeScreen
+
+class Thread {
+    --
+    + start()
+}
+class FrontendController {
+    --
+    + handler()
+}
+Thread <|-left FrontendController
+
+FrontendController *-- Menu
+
+Screen *- Overlay
+
+@enduml
