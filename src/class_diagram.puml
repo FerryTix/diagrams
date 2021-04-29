@@ -2,7 +2,7 @@
 skinparam linetype ortho
 left to right direction
 skinparam nodesep 30
-title: FerryTix Class Diagram
+'title: FerryTix Class Diagram
 skinparam monochrome true
 
 abstract class PaymentDetails
