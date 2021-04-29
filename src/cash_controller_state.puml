@@ -1,6 +1,9 @@
 @startuml
-title Cash Controller States
+' title Cash Register Controller States
 ' skinparam linetype ortho
+
+skinparam monochrome true
+
 
 hide empty description
 
