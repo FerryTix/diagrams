@@ -1,0 +1,61 @@
+@startuml
+skinparam linetype ortho
+skinparam monochrome true
+skinparam backgroundColor white
+skinparam scale 200
+
+[*] --> MainMenu
+
+state MainMenu {
+    [*] -> WelcomeScreen
+    'WelcomeScreen --> NotSellingTickets: Ticket Sales\ndisabled or\nOutside of\noperating hours
+    'NotSellingTickets -left-> SellingTickets: Ticket Sale enabled
+}
+
+state TopUpMenu {
+    [*] -> ReadNFCTagScreen
+    ReadNFCTagScreen -> ShowFaehrcardInfoScreen
+    ' ShowFaehrcardInfoScreen --> MainMenu : Return Button
+    ' ReadNFCTagScreen -> MainMenu : Return Button
+    ShowFaehrcardInfoScreen -> PaymentMenu: Select Amount\nand Confirm
+}
+
+'TopUpMenu --> MainMenu: Timeout after 60s
+
+'TopUpMenu -> MainMenu: Timeout 60s,\nReturn Button,\nSuccessful Payment
+
+MainMenu --> TopUpMenu
+TopUpMenu --up> MainMenu
+
+
+state BuyTicketMenu {
+    [*] --> SelectTicketsScreen
+    SelectTicketsScreen --> PaymentMenu: Select Tickets\nand Confirm
+    ' SelectTicketsScreen -> MainMenu: Return Button
+}
+
+'BuyTicketMenu -> MainMenu: Timeout after 60s
+
+MainMenu --> BuyTicketMenu
+BuyTicketMenu -> MainMenu
+
+state UseReturnTicketMenu {
+    [*] -> QRCodeScreen
+    'QRCodeScreen --> MainMenu: Return Button
+    QRCodeScreen --> ShowReturnTicketsScreen: QRCode Read
+    ' QRCodeScreen --> MainMenu: Back to Main Menu Button
+}
+UseReturnTicketMenu -> MainMenu
+MainMenu -> UseReturnTicketMenu
+
+state PaymentMenu {
+    [*] --> ChoosePaymentMethodScreen
+    'ChoosePaymentMethodScreen -->  [*]: Return Button
+    ChoosePaymentMethodScreen --> PaymentMethodScreen: Payment Method Chosen
+    PaymentMethodScreen --> ReceiptScreen: Payment successful
+}
+
+note left of PaymentMenu: Depending on the action and\nthe configuration, this menu\ncan return to the main menu\nor to a different menu
+
+
+@enduml
