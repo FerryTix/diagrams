@@ -4,7 +4,7 @@ skinparam monochrome true
 skinparam backgroundColor white
 skinparam scale 200
 
-[*] --> MainMenu
+[*] --up> MainMenu
 
 state MainMenu {
     [*] -> WelcomeScreen
@@ -13,11 +13,11 @@ state MainMenu {
 }
 
 state TopUpMenu {
-    [*] -> ReadNFCTagScreen
-    ReadNFCTagScreen -> ShowFaehrcardInfoScreen
+    [*] --> ReadNFCTagScreen
+    ReadNFCTagScreen --> ShowFaehrcardInfoScreen
     ' ShowFaehrcardInfoScreen --> MainMenu : Return Button
     ' ReadNFCTagScreen -> MainMenu : Return Button
-    ShowFaehrcardInfoScreen -> PaymentMenu: Select Amount\nand Confirm
+    ShowFaehrcardInfoScreen --> PaymentMenu: Select Amount\nand Confirm
 }
 
 'TopUpMenu --> MainMenu: Timeout after 60s
@@ -36,7 +36,7 @@ state BuyTicketMenu {
 
 'BuyTicketMenu -> MainMenu: Timeout after 60s
 
-MainMenu --> BuyTicketMenu
+MainMenu -> BuyTicketMenu
 BuyTicketMenu -> MainMenu
 
 state UseReturnTicketMenu {
@@ -45,8 +45,8 @@ state UseReturnTicketMenu {
     QRCodeScreen --> ShowReturnTicketsScreen: QRCode Read
     ' QRCodeScreen --> MainMenu: Back to Main Menu Button
 }
-UseReturnTicketMenu -> MainMenu
-MainMenu -> UseReturnTicketMenu
+UseReturnTicketMenu -up-> MainMenu
+MainMenu --up> UseReturnTicketMenu
 
 state PaymentMenu {
     [*] --> ChoosePaymentMethodScreen
