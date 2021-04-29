@@ -4,7 +4,6 @@ skinparam monochrome true
 skinparam backgroundColor white
 skinparam scale 200
 
-[*] --up> MainMenu
 
 state MainMenu {
     [*] -> WelcomeScreen
@@ -12,12 +11,14 @@ state MainMenu {
     'NotSellingTickets -left-> SellingTickets: Ticket Sale enabled
 }
 
+[*] --up> MainMenu
+
 state TopUpMenu {
     [*] --> ReadNFCTagScreen
     ReadNFCTagScreen --> ShowFaehrcardInfoScreen
     ' ShowFaehrcardInfoScreen --> MainMenu : Return Button
     ' ReadNFCTagScreen -> MainMenu : Return Button
-    ShowFaehrcardInfoScreen --> PaymentMenu: Select Amount\nand Confirm
+    ShowFaehrcardInfoScreen -> PaymentMenu: Select Amount\nand Confirm
 }
 
 'TopUpMenu --> MainMenu: Timeout after 60s
@@ -25,7 +26,7 @@ state TopUpMenu {
 'TopUpMenu -> MainMenu: Timeout 60s,\nReturn Button,\nSuccessful Payment
 
 MainMenu --> TopUpMenu
-TopUpMenu --up> MainMenu
+TopUpMenu -up-> MainMenu
 
 
 state BuyTicketMenu {
@@ -55,7 +56,7 @@ state PaymentMenu {
     PaymentMethodScreen --> ReceiptScreen: Payment successful
 }
 
-note left of PaymentMenu: Depending on the action and\nthe configuration, this menu\ncan return to the main menu\nor to a different menu
+note top of PaymentMenu: Depending on the action and\nthe configuration, this menu\ncan return to the main menu\nor to a different menu
 
 
 @enduml
