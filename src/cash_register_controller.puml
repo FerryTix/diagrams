@@ -1,6 +1,8 @@
 @startuml
 skinparam linetype ortho
-title: Cash Register Controller Thread
+'title: Cash Register Controller Thread
+skinparam monochrome true
+
 start
 repeat
 if (Last Command) then (None)
