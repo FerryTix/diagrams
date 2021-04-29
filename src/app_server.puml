@@ -1,0 +1,20 @@
+
+@startuml
+title: App & Server Process Communication
+skinparam linetype ortho
+skinparam monochrome true
+
+control "FerryTix\nControl Center" as app
+control Server
+control "Client Controller" as cc
+
+cc --> Server: await command\n
+activate Server
+... Wait for command ...
+app --> Server: issue machine command\n
+Server -> cc: send machine command
+cc -> Server: report command result
+Server -> app: forward command result
+deactivate Server
+|||
+@enduml
