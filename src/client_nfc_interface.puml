@@ -1,0 +1,21 @@
+@startuml
+skinparam linetype ortho
+' elft to right direction
+title: Client Processes: NFC Interface
+skinparam monochrome true
+
+control "Client Controller" as cc
+queue "NFC Queue" as q
+control "NFC Interface Controller" as nfc
+
+nfc --> q: Await Command
+...
+cc -> q: Issue Command
+q -> nfc: Command
+cc --> q: Await NFC Input
+...
+nfc -> q: Register NFC Input
+q -> cc: NFC Input
+
+|||
+@enduml

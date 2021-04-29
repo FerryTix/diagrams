@@ -1,0 +1,16 @@
+@startuml
+skinparam linetype ortho
+skinparam monochrome true
+
+' elft to right direction
+title: Client Processes: Cash Register
+control "Client Controller" as cc
+queue "Cash Register\nMessage Queue" as crmq
+control "Cash Register Controller" as cr
+
+cr --> crmq: retrieve command
+cc -> crmq: write command
+cr -> crmq: write payment
+cc <-- crmq: retrieve payment
+
+@enduml
