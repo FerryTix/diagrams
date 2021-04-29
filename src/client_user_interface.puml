@@ -1,0 +1,21 @@
+@startuml
+
+skinparam linetype ortho
+' elft to right direction
+skinparam monochrome true
+title: Client Processes: User Interface
+
+control "Frontend Controller" as gui
+queue "User Interface\nMessage Queue" as uimq
+control "Client Controller" as cc
+
+cc --> uimq: await user input
+...
+gui -> uimq: register user input
+gui --> uimq: await controller feedback
+...
+cc <- cc: process gui events
+cc -> uimq: write user feedback
+gui -> gui: update ui
+|||
+@enduml
