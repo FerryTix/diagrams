@@ -1,0 +1,17 @@
+@startuml
+skinparam linetype ortho
+skinparam monochrome true
+title: Senden von Befehlen
+
+scale 2
+participant Fährmann
+participant Server
+
+Ticketautomat ---> Server: Fragt Befehle an
+... ...
+Fährmann -> Server: Befehl für Ticketautomaten
+Server -> Ticketautomat: Gibt Befehl weiter
+...
+Ticketautomat -> Server: Ergebnis des Befehls
+Server -> Fährmann: Ergebnis weiterleiten
+@enduml
