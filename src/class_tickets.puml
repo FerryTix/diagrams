@@ -1,0 +1,69 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam nodesep 30
+title: Classes concerning Tickets
+skinparam monochrome true
+
+class TicketSale {
+    returnValid: Boolean
+    ' from: MachineLocation
+    'positions: [Position]
+}
+
+class Position {
+    ' fare: Fare
+    count: Integer
+}
+
+Position "1" - "1" Fare
+Position "1…*" - "1" TicketSale
+
+'TicketSale "1" -- "1" Payment
+
+class TicketClass {
+    bicycle: Boolean
+    return: Boolean
+    reduced: Boolean
+    staff: Boolean
+}
+
+abstract class Sale {
+    saleID: String
+    'signedBy: VendingMachine
+    signature: String
+    'payment: Payment
+}
+
+TicketSale ..|> Sale
+'Sale "*" - "1" VendingMachine
+
+class MachineConfiguration {
+    'forMachine: VendingMachine
+    ' maxBicycles: Integer
+    ' maxBicyclesTolerance: Integer
+    ' maxPassengers: Integer
+    ' maxPassengersTolerance: Integer
+    'fares: [Fare]
+    …
+}
+
+'MachineConfiguration "1" - "1…*" VendingMachine
+MachineConfiguration "*" -up "*" Fare
+
+class Fare {
+    ' ticketClass: TicketClass
+    fare: Integer
+}
+
+TicketClass "1" -- "1" Fare
+
+' enum MachineCommand {
+'     setSignalRed
+'     setSignalGreen
+'     stopVending
+'     startVending
+' }
+
+
+@enduml
