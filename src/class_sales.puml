@@ -1,0 +1,79 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam nodesep 30
+'title: FerryTix Class Diagram
+skinparam monochrome true
+
+class TicketSale {
+    returnValid: Boolean
+    ' from: MachineLocation
+    'positions: [Position]
+}
+
+class Position {
+    ' fare: Fare
+    count: Integer
+}
+
+Position "1" - "1" Fare
+Position "1…*" -- "1" TicketSale
+
+Sale "1" -- "1" Payment
+
+class TicketClass {
+    bicycle: Boolean
+    return: Boolean
+    reduced: Boolean
+    staff: Boolean
+}
+
+abstract class Sale {
+    saleID: String
+    'signedBy: VendingMachine
+    signature: String
+    'payment: Payment
+}
+
+TicketSale ..left|> Sale
+TopUp ..|> Sale
+
+class TopUp {
+    'for: FaehrCard
+    amount: Integer
+    initial: Boolean
+}
+
+'TopUp "1" -- "1" Payment
+FaehrCard "1" -up "1…*" TopUp
+
+class Fare {
+    ' ticketClass: TicketClass
+    fare: Integer
+}
+
+Fare "1" -- "1" TicketClass
+
+' enum MachineCommand {
+'     setSignalRed
+'     setSignalGreen
+'     stopVending
+'     startVending
+' }
+
+
+' class MachineStatus {
+'     vending: Boolean
+'     waiting: [WaitingPassenger]
+' }
+
+'WaitingPassenger <- MachineStatus
+
+' class WaitingPassenger {
+'     ticketClass: TicketClass
+'     waitingSince: DateTime
+' }
+'
+' WaitingPassenger --> TicketClass
+
+@enduml
