@@ -11,32 +11,20 @@ class FaehrCardPayment {
     ' uuid: UUID
 }
 FaehrCardPayment .|> PaymentDetails
-FaehrCardPayment "*" -left- "1" FaehrCard
+FaehrCardPayment "*" -up  "1" FaehrCard
 
 class CashPayment {
     denominations: [Integer]
     change: [Integer]
 }
 
-CashPayment ..|> PaymentDetails
+CashPayment .up|> PaymentDetails
 
 class ECCardPayment {
 
 }
 
-ECCardPayment .|> PaymentDetails
-
-class BankTransferPayment {
-
-}
-
-BankTransferPayment .up|> PaymentDetails
-
-class PayPalPayment {
-
-}
-
-PayPalPayment ..|> PaymentDetails
+PaymentDetails <|.. ECCardPayment
 
 class Payment {
     'issuedBy: Union<null, VendingMachine>
@@ -51,11 +39,9 @@ enum PaymentMethod {
     ECCard
     Cash
     FaehrCard
-    BankTransfer
-    PayPalPayment
 }
 
-PaymentMethod "1" - "*" Payment
+PaymentMethod "1" -- "*" Payment
 Payment "1" - "1" PaymentDetails
 Payment "*" - "1" VendingMachine
 
@@ -70,10 +56,10 @@ class Position {
     count: Integer
 }
 
-Position "1" - "1" Fare
-Position "1…*" -- "1" TicketSale
+Position "1" -- "1" Fare
+Position "1…*" - "1" TicketSale
 
-TicketSale "1" -- "1" Payment
+' TicketSale "1" -- "1" Payment
 
 class TicketClass {
     bicycle: Boolean
@@ -89,10 +75,10 @@ abstract class Sale {
     'payment: Payment
 }
 
-TicketSale .left.|> Sale
-TopUp .up|> Sale
+TicketSale ..|> Sale
+TopUp ..|> Sale
 Sale "1" - "1" Payment
-Sale "*" - "1" VendingMachine
+Sale "*" -- "1" VendingMachine
 
 class TopUp {
     'for: FaehrCard
@@ -100,7 +86,7 @@ class TopUp {
     initial: Boolean
 }
 
-TopUp "1" -- "1" Payment
+'TopUp "1" -- "1" Payment
 FaehrCard "1" -- "1…*" TopUp
 
 class StaffMember {
@@ -147,7 +133,7 @@ class Fare {
     fare: Integer
 }
 
-TicketClass "1" -- "1" Fare
+TicketClass "1" - "1" Fare
 
 ' enum MachineCommand {
 '     setSignalRed
@@ -167,7 +153,7 @@ class VendingMachine {
     'location: MachineLocation
 }
 
-MachineLocation "1" -- "*" VendingMachine
+MachineLocation "1" -up "*" VendingMachine
 
 ' class MachineStatus {
 '     vending: Boolean

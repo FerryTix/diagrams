@@ -10,7 +10,7 @@ abstract class PaymentDetails
 class FaehrCardPayment {
     ' uuid: UUID
 }
-FaehrCardPayment ..up|> PaymentDetails
+FaehrCardPayment ..|> PaymentDetails
 FaehrCardPayment "*" -left- "1" FaehrCard
 
 class CashPayment {
@@ -24,19 +24,7 @@ class ECCardPayment {
 
 }
 
-ECCardPayment ..|> PaymentDetails
-
-class BankTransferPayment {
-
-}
-
-BankTransferPayment .up|> PaymentDetails
-
-class PayPalPayment {
-
-}
-
-PayPalPayment ..|> PaymentDetails
+ECCardPayment .up|> PaymentDetails
 
 class Payment {
     'issuedBy: Union<null, VendingMachine>
@@ -55,7 +43,7 @@ enum PaymentMethod {
     PayPalPayment
 }
 
-PaymentMethod "1" -- "*" Payment
+PaymentMethod "1" - "*" Payment
 Payment "1" - "1" PaymentDetails
 ' Payment "*" - "1" VendingMachine
 
@@ -66,7 +54,7 @@ abstract class Sale {
     'payment: Payment
 }
 
-Sale "1" - "1" Payment
+Sale "1" -up- "1" Payment
 
 
 class FaehrCard {
