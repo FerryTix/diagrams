@@ -1,0 +1,65 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam nodesep 30
+'title: FerryTix Class Diagram
+skinparam monochrome true
+
+class Payment {
+    'issuedBy: Union<null, VendingMachine>
+    uuid: UUID
+    issuedAt: DateTime
+    amount: Integer
+    'details: PaymentDetails
+    'method: PaymentMethod
+}
+
+Payment "*" -- "1" VendingMachine
+
+' TicketSale "1" -- "1" Payment
+
+class MachineConfiguration {
+    'forMachine: VendingMachine
+    maxBicycles: Integer
+    maxBicyclesTolerance: Integer
+    maxPassengers: Integer
+    maxPassengersTolerance: Integer
+    'fares: [Fare]
+}
+
+MachineConfiguration "1" -- "1…*" VendingMachine
+MachineConfiguration "*" -- "*" Fare
+
+class Fare {
+    ' ticketClass: TicketClass
+    fare: Integer
+}
+
+enum MachineLocation {
+    Bislich
+    Xanten
+}
+
+class VendingMachine {
+    uuid: UUID
+    publicKey: PublicKey
+    'location: MachineLocation
+}
+
+MachineLocation "1" -- "*" VendingMachine
+
+' class MachineStatus {
+'     vending: Boolean
+'     waiting: [WaitingPassenger]
+' }
+
+'WaitingPassenger <- MachineStatus
+
+' class WaitingPassenger {
+'     ticketClass: TicketClass
+'     waitingSince: DateTime
+' }
+'
+' WaitingPassenger --> TicketClass
+
+@enduml
