@@ -2,7 +2,7 @@
 skinparam linetype ortho
 left to right direction
 skinparam nodesep 30
-title: Classes concerning Tickets
+'title: Classes concerning Tickets
 skinparam monochrome true
 
 class TicketSale {

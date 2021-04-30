@@ -1,0 +1,82 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam nodesep 30
+'title: FerryTix Class Diagram
+skinparam monochrome true
+
+abstract class PaymentDetails
+
+class FaehrCardPayment {
+    ' uuid: UUID
+}
+FaehrCardPayment ..up|> PaymentDetails
+FaehrCardPayment "*" -left- "1" FaehrCard
+
+class CashPayment {
+    denominations: [Integer]
+    change: [Integer]
+}
+
+CashPayment ..up|> PaymentDetails
+
+class ECCardPayment {
+
+}
+
+ECCardPayment ..|> PaymentDetails
+
+class BankTransferPayment {
+
+}
+
+BankTransferPayment .up|> PaymentDetails
+
+class PayPalPayment {
+
+}
+
+PayPalPayment ..|> PaymentDetails
+
+class Payment {
+    'issuedBy: Union<null, VendingMachine>
+    uuid: UUID
+    issuedAt: DateTime
+    amount: Integer
+    'details: PaymentDetails
+    'method: PaymentMethod
+}
+
+enum PaymentMethod {
+    ECCard
+    Cash
+    FaehrCard
+    BankTransfer
+    PayPalPayment
+}
+
+PaymentMethod "1" -- "*" Payment
+Payment "1" - "1" PaymentDetails
+' Payment "*" - "1" VendingMachine
+
+abstract class Sale {
+    saleID: String
+    'signedBy: VendingMachine
+    signature: String
+    'payment: Payment
+}
+
+Sale "1" - "1" Payment
+
+
+class FaehrCard {
+    uuid: UUID
+    ' ownedBy: Union<null, StaffMember>
+    balance: Integer
+    issuedAt: DateTime
+    ' issuedBy: Union<null, VendingMachine>
+}
+
+' FaehrCard "*" -- "0…1" VendingMachine
+
+@enduml
