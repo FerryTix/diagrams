@@ -10,7 +10,7 @@ abstract class PaymentDetails
 class FaehrCardPayment {
     ' uuid: UUID
 }
-FaehrCardPayment .|> PaymentDetails
+FaehrCardPayment ..|> PaymentDetails
 FaehrCardPayment "*" -up  "1" FaehrCard
 
 class CashPayment {
@@ -18,7 +18,7 @@ class CashPayment {
     change: [Integer]
 }
 
-CashPayment .up|> PaymentDetails
+PaymentDetails <|.. CashPayment
 
 class ECCardPayment {
 
@@ -87,7 +87,7 @@ class TopUp {
 }
 
 'TopUp "1" -- "1" Payment
-FaehrCard "1" -- "1…*" TopUp
+FaehrCard "1" - "1…*" TopUp
 
 class StaffMember {
     uuid: UUID
