@@ -48,18 +48,27 @@ class VendingMachine {
 
 MachineLocation "1" -- "*" VendingMachine
 
-' class MachineStatus {
-'     vending: Boolean
-'     waiting: [WaitingPassenger]
-' }
+class MachineStatus {
+    vending: Boolean
+    ' waiting: [WaitingPassenger]
+    batteryCharge: float
+    estimatedReceiptPaperFillLevel: float
+    receiptPaperRollLength: float
+    cpuTemperature: float
+    'ticketsSoldToday:
+    volumeOfSalesToday: integer
+    saleCounter: integer
+}
 
-'WaitingPassenger <- MachineStatus
+WaitingPassenger "*" - "1" MachineStatus
 
-' class WaitingPassenger {
-'     ticketClass: TicketClass
-'     waitingSince: DateTime
-' }
-'
-' WaitingPassenger --> TicketClass
+class WaitingPassenger {
+    ticketClass: TicketClass
+    waitingSince: DateTime
+}
+
+WaitingPassenger "*" -- "1" TicketClass
+
+VendingMachine "1" - "1" MachineStatus
 
 @enduml

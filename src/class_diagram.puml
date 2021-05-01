@@ -8,7 +8,7 @@ skinparam monochrome true
 abstract class PaymentDetails
 'skinparam BoxPadding             30
 skinparam nodesep 50
-skinparam ranksep 70
+skinparam ranksep 100
 
 class FaehrCardPayment {
     ' uuid: UUID
@@ -158,18 +158,29 @@ class VendingMachine {
 
 MachineLocation "1" -up "*" VendingMachine
 
-' class MachineStatus {
-'     vending: Boolean
-'     waiting: [WaitingPassenger]
-' }
+MachineLocation "1" -- "*" VendingMachine
 
-'WaitingPassenger <- MachineStatus
+class MachineStatus {
+    vending: Boolean
+    ' waiting: [WaitingPassenger]
+    batteryCharge: float
+    estimatedReceiptPaperFillLevel: float
+    receiptPaperRollLength: float
+    cpuTemperature: float
+    'ticketsSoldToday:
+    volumeOfSalesToday: integer
+    saleCounter: integer
+}
 
-' class WaitingPassenger {
-'     ticketClass: TicketClass
-'     waitingSince: DateTime
-' }
-'
-' WaitingPassenger --> TicketClass
+WaitingPassenger "*" - "1" MachineStatus
+
+class WaitingPassenger {
+    ticketClass: TicketClass
+    waitingSince: DateTime
+}
+
+WaitingPassenger "*" -- "1" TicketClass
+
+VendingMachine "1" - "1" MachineStatus
 
 @enduml
