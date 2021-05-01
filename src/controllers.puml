@@ -21,6 +21,6 @@ skinparam monochrome true
 [Client\nController] -- [ECCard\nController]
 [ECCard\nController] -- (EC Card Terminal)
 
-[Client\nController] -- (Relay Board)
+'[Client\nController] -- (Relay Board)
 
 @enduml
