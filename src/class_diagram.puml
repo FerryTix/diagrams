@@ -9,6 +9,7 @@ abstract class PaymentDetails
 'skinparam BoxPadding             30
 skinparam nodesep 50
 skinparam ranksep 100
+scale 1.5
 
 class FaehrCardPayment {
     ' uuid: UUID

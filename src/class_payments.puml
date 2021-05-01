@@ -4,6 +4,8 @@ left to right direction
 skinparam nodesep 30
 'title: FerryTix Class Diagram
 skinparam monochrome true
+skinparam nodesep 50
+scale 1.5
 
 abstract class PaymentDetails
 

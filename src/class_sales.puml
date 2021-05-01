@@ -1,7 +1,9 @@
 @startuml
 skinparam linetype ortho
 left to right direction
-skinparam nodesep 30
+'skinparam nodesep 30
+skinparam nodesep 50
+scale 1.5
 'title: FerryTix Class Diagram
 skinparam monochrome true
 

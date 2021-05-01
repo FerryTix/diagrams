@@ -4,6 +4,7 @@ left to right direction
 skinparam nodesep 30
 'title: FerryTix Class Diagram
 skinparam monochrome true
+scale 1.5
 
 class Payment {
     'issuedBy: Union<null, VendingMachine>
