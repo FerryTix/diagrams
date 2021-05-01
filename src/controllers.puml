@@ -1,0 +1,26 @@
+@startuml
+scale 1.5
+skinparam monochrome true
+
+[Client\nController] -- [NFC\nController]
+(NFC Sensor) -up- [NFC\nController]
+
+(Display) - [Frontend\nController]
+(Receipt Printer) -- [Frontend\nController]
+(Camera) -up- [Frontend\nController]
+[Frontend\nController] - [Client\nController]
+
+[Client\nController] - [API\nController]
+[API\nController] - (Backend)
+
+[Cash\nController] -- [Client\nController]
+[Cash\nController] - (Note Acceptor)
+[Cash\nController] -up- (Servo Board)
+(Coin Acceptor) - [Cash\nController]
+
+[Client\nController] -- [ECCard\nController]
+[ECCard\nController] -- (EC Card Terminal)
+
+[Client\nController] -- (Relay Board)
+
+@enduml
