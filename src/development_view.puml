@@ -1,6 +1,8 @@
 @startuml
 
 skinparam linetype ortho
+skinparam monochrome true
+scale 1.5
 left to right direction
 cloud {
     package "Backend" {
@@ -23,11 +25,13 @@ cloud {
 server <-> api
 server --> db
 
-node "VendingMachine" {
+node "VendingMachine" as vm {
     [Frontend] as v_fr
+    [Client Controller]
+    [API Client] as apicl
 }
 
-v_fr ---> api
+apicl ---> api
 
 node "ManagementCenter" {
     [Mobile App] as m_app
